@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Models
 {
-    public class RegistrationsRepository : Repository<Registrations>
+    public class StudentsRepository : Repository<Student>
     {
 
     }
