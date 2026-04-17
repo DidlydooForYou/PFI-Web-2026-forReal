@@ -14,6 +14,7 @@ namespace Models
         public DateTime BirthDate { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public int Id { get; set; }
 
         [JsonIgnore]
         public string FullName => FirstName + " " + LastName;

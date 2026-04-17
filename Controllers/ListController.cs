@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Models;
 
 namespace Controllers
 {
@@ -25,7 +26,7 @@ namespace Controllers
         [UserAccess(Access.Admin)]
         public ActionResult Edit(Student student, List<int> selectedCoursesId)
         {
-            if (s tudent.IsValid() )
+            if (student.IsValid() )
 {
                 student.Id = (int)Session["id"];
                 student.Code = (string)Session["code"];
