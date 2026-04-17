@@ -1,72 +1,69 @@
-﻿using Models;
+﻿using DAL;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace Models
 {
     public class Student : Record
     {
-        public string LastName { get; set; }
         public string FirstName { get; set; }
+        public string LastName { get; set; }
         public string Code { get; set; }
-        public int Id { get; set; }
+        public DateTime BirthDate { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
 
-        [JsonIgnore] public string FullName => LastName + " " + FirstName;
-        [JsonIgnore] public string Caption => Code + " " + LastName + " " + FirstName;
-        [JsonIgnore] public int Year => int.Parse(Code.Substring(0, 4));
-        [JsonIgnore] public List<Registration> Registrations => DB.Registrations.ToList().Where(r => r.StudentId == Id).ToList();
-        [JsonIgnore] public List<Registration> NextSessionRegistrations => DB.Registrations.ToList().Where(r => r.StudentId == Id && r.IsNextSession).ToList();
+        [JsonIgnore]
+        public string FullName => FirstName + " " + LastName;
+
+        [JsonIgnore]
+        public int Year
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Code) || Code.Length < 4)
+                    return 0;
+
+                return int.Parse(Code.Substring(0, 4));
+            }
+        }
+
+        [JsonIgnore]
+        public List<Registration> Registrations =>
+            DB.Registrations.ToList().Where(r => r.StudentId == Id).ToList();
+
         [JsonIgnore]
         public List<Course> Courses
         {
             get
             {
-                var courses = new List<Course>();
-                foreach (var registration in Registrations.OrderBy(r => r.Course.Code))
+                List<Course> courses = new List<Course>();
+
+                foreach (Registration registration in Registrations)
                 {
-                    courses.Add(registration.Course);
+                    Course course = DB.Courses.Get(registration.CourseId);
+                    if (course != null)
+                        courses.Add(course);
                 }
+
                 return courses;
             }
         }
-        [JsonIgnore]
-        public List<Course> NextSessionCourses
+
+        public override bool IsValid()
         {
-            get
-            {
-                var courses = new List<Course>();
-                foreach (var registration in NextSessionRegistrations.OrderBy(r => r.Course.Code))
-                {
-                    courses.Add(registration.Course);
-                }
-                return courses;
-            }
-        }
-        [JsonIgnore] public SelectList CoursesSelectList => SelectListUtilities<Course>.Convert(Courses, "Caption");
-        [JsonIgnore]
-        public SelectList NextSessionCoursesToSelectList => SelectListUtilities<Course>.Convert(NextSessionCourses, "Caption");
-        public void DeleteAllRegistrations()
-        {
-            foreach (Registration registration in Registrations)
-                DB.Registrations.Delete(registration.Id);
-        }
-        public void DeleteNextSessionRegistrations()
-        {
-            foreach (Registration registration in NextSessionRegistrations)
-                DB.Registrations.Delete(registration.Id);
-        }
-        public void UpdateRegistrations(List<int> selectedCoursesId)
-        {
-            DeleteNextSessionRegistrations();
-            if (selectedCoursesId != null)
-                foreach (int courseId in selectedCoursesId)
-                {
-                    DB.Registrations.Add(new Registration { StudentId = Id, CourseId = courseId });
-                }
+            if (!HasRequiredLength(FirstName, 1)) return false;
+            if (!HasRequiredLength(LastName, 1)) return false;
+            if (!HasRequiredLength(Code, 10)) return false;
+            if (!HasRequiredLength(Email, 1)) return false;
+            if (!HasRequiredLength(Phone, 1)) return false;
+
+            if (DB.Students.ToList().Where(s => s.Code == Code && s.Id != Id).Any()) return false;
+            if (DB.Students.ToList().Where(s => s.Email == Email && s.Id != Id).Any()) return false;
+
+            return true;
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using DAL;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Models
 {
-    public class Allocation : Record
+    public class RegistrationsRepository : Repository<Registrations>
     {
 
     }
