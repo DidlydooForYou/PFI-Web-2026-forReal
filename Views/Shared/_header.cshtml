@@ -1,0 +1,55 @@
+﻿<!--
+    Cette vue partielle a pour mission de construire l'entête et les menus en fonction de l'action
+-->
+@{
+    string controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString().ToLower();
+    string action = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString().ToLower();
+
+    var Categories = (List<string>)Session["Categories"];
+
+    bool userConnected = Models.User.ConnectedUser != null;
+    bool userCanWrite = userConnected ? Models.User.ConnectedUser.CanWrite : false;
+}
+
+<div class="section roundedBorder">
+    <div class="headerMenu d-flex align-items-center px-3 py-2">
+
+        <i class="siteIcon me-3"></i>
+
+        <div class="pageTitle flex-grow-1">
+            @ViewBag.PageTitle
+        </div>
+
+        @if (userCanWrite)
+        {
+            <a href="/@controller/Create" class="cmdIcon fa fa-circle-plus me-3" title="Ajouter..."></a>
+        }
+
+        <a href="/@controller/ToggleSearch" class="cmdIcon fa fa-search me-3" title="Recherche..."></a>
+
+        <div class="dropdown">
+            <i class="cmdIcon fa fa-bars" data-bs-toggle="dropdown" aria-expanded="false"></i>
+
+            <div class="dropdown-menu dropdown-menu-end p-2" style="width: 260px;">
+                <div class="dropdown-item item-layout">
+                    <i class="menuIcon fa fa-address-card"></i>
+                    <a href="/Accounts/EditProfil">Profil...</a>
+                </div>
+
+                <div class="dropdown-item item-layout">
+                    <i class="menuIcon fa fa-sign-out"></i>
+                    <a href="/Accounts/Logout">Déconnexion...</a>
+                </div>
+
+                <div class="dropdown-divider"></div>
+
+                <div class="dropdown-item item-layout">
+                    <i class="menuIcon fa fa-info-circle"></i>
+                    <a href="/@controller/About">À propos...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

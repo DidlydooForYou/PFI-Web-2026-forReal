@@ -1,0 +1,48 @@
+﻿@{ ViewBag.PageTitle = "Student list"; }
+
+<div id="StudentListPanel" class="studentListLayout">
+    <!-- Periodicaly refreshed by object contactListPanel of class AutoRefreshedPanel -->
+</div>
+
+@section Scripts {
+    <script>
+        let studentsListAutoRefreshPanel = null;
+
+        $(() => {
+            newSession(600);
+
+            studentsListAutoRefreshPanel =
+                new AutoRefreshedPanel(
+                    "StudentListPanel",
+                    "/Home/GetStudent",
+                    5,
+                    studentsListPostRefresh);
+
+            let keywordsOnchangeTimer = null;
+
+            $("#searchInput").on('keyup', function () {
+                clearTimeout(keywordsOnchangeTimer);
+                keywordsOnchangeTimer = setTimeout(() => {
+                    window.location = "/Home/SetSearchString?value=" + $("#searchInput").val();
+                }, 1000);
+            });
+
+            $("#searchInput").on('search', function () {
+                clearTimeout(keywordsOnchangeTimer);
+                window.location = "/Home/SetSearchString?value=" + $("#searchInput").val();
+            });
+
+            $("#searchInput").on("focus", function () {
+                studentsListAutoRefreshPanel.pause();
+            });
+
+            $("#searchInput").on("blur", function () {
+                studentsListAutoRefreshPanel.restart();
+            });
+        });
+
+        function studentsListPostRefresh() {
+            
+        }
+</script>
+}

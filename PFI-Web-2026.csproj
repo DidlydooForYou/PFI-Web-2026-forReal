@@ -120,7 +120,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ListController.cs" />
     <Compile Include="DAL\AssetAttribute.cs" />
     <Compile Include="DAL\DB.cs" />
     <Compile Include="DAL\ImageAsset.cs" />
@@ -133,14 +132,22 @@
     <Compile Include="Models\AllocationRepository.cs" />
     <Compile Include="Models\CourseRepository.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\LoginCredential.cs" />
+    <Compile Include="Models\LoginRepository.cs" />
     <Compile Include="Models\NextSession.cs" />
     <Compile Include="Models\RegistrationRepository.cs" />
     <Compile Include="Models\Registration.cs" />
+    <Compile Include="Models\SelectListUtilities.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentRepository.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeacherRepository.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebServices\Countries.cs" />
+    <Compile Include="WebServices\GeoLocation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Assets\teachers\bc2be815-cd3d-459d-a312-49e60229c80c.jpeg" />
@@ -167,6 +174,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="css\Courses.css" />
+    <Content Include="css\Header.css" />
     <Content Include="css\Selections.css" />
     <Content Include="css\site.css" />
     <Content Include="css\Students.css" />
@@ -216,9 +224,12 @@
     <Content Include="Views\Home\GetStudent.cshtml" />
     <Content Include="Views\Home\StudentForm.cshtml" />
     <Content Include="Views\Home\Etudiants.cshtml" />
+    <Content Include="Views\Shared\_header.cshtml" />
+    <Content Include="Views\Home\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include=".vs\420-KBD-PFI-2026\FileContentIndex\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

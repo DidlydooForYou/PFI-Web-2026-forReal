@@ -13,6 +13,8 @@ namespace DAL
         public static DB Instance { get { return instance; } }
         #endregion
 
+        static public UsersRepository Users { get; set; } = new UsersRepository();
+        static public LoginsRepository Logins { get; set; } = new LoginsRepository();
         public static StudentsRepository Students { get; set; } = new StudentsRepository();
         public static AllocationsRepository Allocations { get; set; } = new AllocationsRepository();
         public static CoursesRepository Courses { get; set; } = new CoursesRepository();
